@@ -1,22 +1,43 @@
 class MemosController < ApplicationController
   def index
+    @memos = Memo.order(id: :desc)
+    render json: @memos
   end
 
   def show
-  end
-
-  def new
+    @memo = Memo.find(params[:id])
+    render json: @memo
   end
 
   def create
-  end
+    @memo = Memo.new(memo_params)
 
-  def edit
+    if @memo.save
+      render json: @memo, status: :created
+    else
+      render json: @memo.errors, status: :unprocessable_entity
+    end
   end
 
   def update
+    @memo = Memo.find(params[:id])
+    @memo.assign_attributes(memo_params)
+
+    if @memo.save
+      render json:@memo
+    else
+      render json: @memo.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
+    @memo = Memo.find(params[:id])
+    @memo.destroy
+  end
+
+  private
+  def memo_params
+    # TODO Memoモデルの:editカラムは必要？
+    params.require(:memo).permit(:content)
   end
 end
