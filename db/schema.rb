@@ -10,16 +10,59 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_12_111049) do
+ActiveRecord::Schema.define(version: 2019_08_12_112755) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "comments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "memo_id"
+    t.text "content", null: false
+    t.boolean "edit"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["memo_id"], name: "index_comments_on_memo_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "memo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["memo_id"], name: "index_likes_on_memo_id"
+    t.index ["user_id", "memo_id"], name: "index_likes_on_user_id_and_memo_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "memos", force: :cascade do |t|
+    t.bigint "user_id", null: false
     t.text "content", null: false
     t.boolean "edit", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_memos_on_user_id"
+  end
+
+  create_table "stocks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "memo_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["memo_id"], name: "index_stocks_on_memo_id"
+    t.index ["user_id", "memo_id"], name: "index_stocks_on_user_id_and_memo_id", unique: true
+    t.index ["user_id"], name: "index_stocks_on_user_id"
+  end
+
+  create_table "user_relationships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "follower_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["follower_id"], name: "index_user_relationships_on_follower_id"
+    t.index ["user_id", "follower_id"], name: "index_user_relationships_on_user_id_and_follower_id", unique: true
+    t.index ["user_id"], name: "index_user_relationships_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -30,8 +73,18 @@ ActiveRecord::Schema.define(version: 2019_08_12_111049) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "username", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "memos"
+  add_foreign_key "comments", "users"
+  add_foreign_key "likes", "memos"
+  add_foreign_key "likes", "users"
+  add_foreign_key "memos", "users"
+  add_foreign_key "stocks", "memos"
+  add_foreign_key "stocks", "users"
+  add_foreign_key "user_relationships", "users"
+  add_foreign_key "user_relationships", "users", column: "follower_id"
 end
