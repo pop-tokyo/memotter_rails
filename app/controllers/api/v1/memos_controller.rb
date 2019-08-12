@@ -1,4 +1,4 @@
-class MemosController < ApplicationController
+class Api::V1::MemosController < Api::V1::ApplicationController
   def index
     @memos = Memo.order(id: :desc)
     render json: @memos
