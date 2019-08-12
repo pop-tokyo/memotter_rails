@@ -12,6 +12,9 @@ class Api::V1::MemosController < Api::V1::ApplicationController
   def create
     @memo = Memo.new(memo_params)
 
+    # TODO ユーザ認証機能を作ったら消す
+    @memo.user_id = 1
+
     if @memo.save
       render json: @memo, status: :created
     else
