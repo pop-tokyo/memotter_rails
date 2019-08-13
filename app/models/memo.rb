@@ -5,4 +5,6 @@ class Memo < ApplicationRecord
   has_many :comments
   has_many :stocks
   has_many :likes
+
+  validates :content, length: { in: 1..1200 }
 end
