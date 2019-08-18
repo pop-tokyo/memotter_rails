@@ -2,9 +2,10 @@
 ## version
 Rails 6.0.0.rc2  
 Ruby 2.6.3  
+PostgreSQL 11.4  
 
 ## DB
-PostgreSQL 11.4  
+セットアップ
 
 ```
 docker volume create --name volume_for_memotter_rails
@@ -18,4 +19,16 @@ bundle exec rails db:create
 bundle exec rails db:migrate
 
 bundle exec rails db:seed_fu
+```
+
+DBのrestart
+
+```
+docker container restart postgresql_for_memotter_rails
+```
+
+DBのresetとseedの追加
+
+```
+bundle exec rails db:migrate:reset && rails db:seed_fu
 ```
