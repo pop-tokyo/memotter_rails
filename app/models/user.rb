@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
-
+  include DeviseTokenAuth::Concerns::User
   # TODO add validations such as uniqueness for email
 
   has_many :user_relationships
