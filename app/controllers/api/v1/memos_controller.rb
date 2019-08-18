@@ -1,4 +1,6 @@
 class Api::V1::MemosController < Api::V1::ApplicationController
+  skip_before_action :authenticate_user!, only: [:index, :show]
+
   def index
     @memos = Memo.order(id: :desc)
     render json: @memos
@@ -10,10 +12,7 @@ class Api::V1::MemosController < Api::V1::ApplicationController
   end
 
   def create
-    @memo = Memo.new(memo_params)
-
-    # TODO ユーザ認証機能を作ったら消す
-    @memo.user_id = 1
+    @memo = current_user.memos.build(memo_params)
 
     if @memo.save
       render json: @memo, status: :created
@@ -23,7 +22,7 @@ class Api::V1::MemosController < Api::V1::ApplicationController
   end
 
   def update
-    @memo = Memo.find(params[:id])
+    @memo = current_user.memos.find(params[:id])
     @memo.assign_attributes(memo_params)
 
     if @memo.save
@@ -34,7 +33,7 @@ class Api::V1::MemosController < Api::V1::ApplicationController
   end
 
   def destroy
-    @memo = Memo.find(params[:id])
+    @memo = current_user.memos.find(params[:id])
     @memo.destroy
   end
 
