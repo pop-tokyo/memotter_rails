@@ -4,8 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
-  # TODO add validations such as uniqueness for email
-
   has_many :user_relationships
   has_many :followers, through: :user_relationships, source: :follower
   has_many :reverse_of_user_relationships, class_name: 'UserRelationship', foreign_key: 'follower_id'
@@ -17,3 +15,5 @@ class User < ApplicationRecord
   has_many :stocks
   has_many :likes
 end
+
+# TODO add validations such as uniqueness for email
