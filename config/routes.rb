@@ -9,7 +9,9 @@ Rails.application.routes.draw do
 				sessions: 'api/v1/auth/sessions'
 			}
 			resources :memos
-			resources :users, param: :username, path: '/'
+			resources :users, param: :username, path: '/' do
+					get 'memos'
+			end
 		end
 	end
 end
