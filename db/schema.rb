@@ -57,11 +57,11 @@ ActiveRecord::Schema.define(version: 2019_08_17_082912) do
 
   create_table "user_relationships", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "follower_id", null: false
+    t.bigint "follow_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["follower_id"], name: "index_user_relationships_on_follower_id"
-    t.index ["user_id", "follower_id"], name: "index_user_relationships_on_user_id_and_follower_id", unique: true
+    t.index ["follow_id"], name: "index_user_relationships_on_follow_id"
+    t.index ["user_id", "follow_id"], name: "index_user_relationships_on_user_id_and_follow_id", unique: true
     t.index ["user_id"], name: "index_user_relationships_on_user_id"
   end
 
@@ -90,5 +90,5 @@ ActiveRecord::Schema.define(version: 2019_08_17_082912) do
   add_foreign_key "stocks", "memos"
   add_foreign_key "stocks", "users"
   add_foreign_key "user_relationships", "users"
-  add_foreign_key "user_relationships", "users", column: "follower_id"
+  add_foreign_key "user_relationships", "users", column: "follow_id"
 end
