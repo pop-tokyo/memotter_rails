@@ -6,15 +6,20 @@ class User < ApplicationRecord
 	include DeviseTokenAuth::Concerns::User
 
 	has_many :user_relationships
+  # FIXME: has_manyがちゃんと動いていない
 	has_many :followings, through: :user_relationships, source: :follow
 	has_many :reverse_of_user_relationships, class_name: 'UserRelationship', foreign_key: 'follow_id'
 	has_many :followers, through: :reverse_of_user_relationships, source: :user
 
-	# dependent: :destroyは一旦書かないでおく。何故ならばユーザーが退会したらいいね数が減る、コメントが消えるのは問題だから。
 	has_many :memos
 	has_many :comments
 	has_many :stocks
 	has_many :likes
+
+  # FIXME: has_manyがちゃんと動いていない、このメソッドも何故か動かない
+  # def followings
+  #   user.user_relationships.users
+  # end
 
 	def follow(other_user)
 		return if self == other_user
