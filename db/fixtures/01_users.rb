@@ -1,17 +1,17 @@
 User.seed do |s|
-  s.email = 'me@example.com'
+  s.email = 'sample-1@example.com'
   s.password = 'password'
   s.username = 'sample-1'
 end
 
 User.seed do |s|
-  s.email = 'you@example.com'
+  s.email = 'sample-2@example.com'
   s.password = 'password'
   s.username = 'sample-2'
 end
 
 User.seed do |s|
-  s.email = 'another@example.com'
+  s.email = 'sample-3@example.com'
   s.password = 'password'
   s.username = 'sample-3'
 end

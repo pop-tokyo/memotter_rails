@@ -23,7 +23,6 @@ class User < ApplicationRecord
 
 	def follow(other_user)
 		return if self == other_user
-
 		user_relationships.find_or_create_by!(follow_id: other_user.id)
 	end
 
@@ -34,11 +33,11 @@ class User < ApplicationRecord
 		relation&.destroy!
 	end
 
-	def followings?(other_user)
+	def follow?(other_user)
 		followings.include? other_user
 	end
 
-	def followers?(other_user)
+	def followed?(other_user)
 		followers.include? other_user
 	end
 end

@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 			resources :users, param: :username, path: '/' do
 					get 'memos'
 			end
+			resources :user_relationships, param: :other_username do
+			end
+
+			delete 'user_relationships/:other_username', to: 'user_relationships#destory'
 		end
 	end
 end
