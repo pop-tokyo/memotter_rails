@@ -5,7 +5,7 @@ class Api::V1::UsersController < Api::V1::ApplicationController
 	end
 
 	def memos
-		@memos = Memo.joins(:user).where(users: { username: params[:user_username]})
+		@memos = Memo.joins(:user).where(users: { username: params[:user_username] })
 		render json: @memos
 	end
 end
